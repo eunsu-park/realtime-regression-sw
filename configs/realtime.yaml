@@ -1,0 +1,52 @@
+# Runtime configuration for realtime-regression-sw.
+# Keys here override values composed from configs/profile/*.yaml.
+
+profile:
+  name: "in2d_out6h_gnn_transformer"
+
+paths:
+  checkpoint: "/Users/eunsupark/realtime/checkpoint/model_best.pth"
+  stats_file: "/Users/eunsupark/realtime/checkpoint/table_stats.pkl"
+  event_dir: "/Users/eunsupark/realtime/dataset/events"
+  cache_dir: "/Users/eunsupark/realtime/dataset/cache"
+  results_dir: "/Users/eunsupark/realtime/results"
+
+sources:
+  noaa_plasma_url: "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
+  noaa_mag_url:    "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json"
+  gfz_hpo_url:     "https://www-app3.gfz-potsdam.de/kp_index/Hp30_ap30_nowcast.txt"
+  download_timeout: 30
+  max_retries: 3
+
+window:
+  lookback_steps: 96
+  forecast_steps: 12
+  boundary_offset_minutes: 2
+
+runtime:
+  device: "cpu"
+  missing_data:
+    max_gap_fraction: 0.10
+    ffill_limit_steps: 2
+    require_recent_steps_present: 3
+    anchor_rollback_max_attempts: 2
+
+analysis:
+  plot:
+    enable: true
+    history_steps: 96      # how many input steps to show in forecast plot (≤ lookback_steps)
+    dpi: 120
+  mcd:
+    enable: true
+    num_samples: 100       # N forward passes with dropout on
+    n_std: 2.0             # uncertainty band width in σ units
+  attention:
+    enable: true
+    save_npz: true         # persist raw tensors alongside plots
+
+# Reference metrics for the default checkpoint (reported at provenance time).
+model_provenance:
+  val_loss_at_train: 0.2178
+  val_mae_at_train: 0.3532
+  val_rmse_at_train: 0.4541
+  trained_on_epoch: 16
