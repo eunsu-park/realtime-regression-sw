@@ -1,17 +1,9 @@
-# DEFAULT runtime configuration (Windows target) — in2d_out12h_gnn_transformer profile.
-# Assumes the realtime workspace lives at D:/realtime/ with the standard layout
+# macOS / Linux variant — in2d_out12h_gnn_transformer profile.
+# Workspace: /Users/eunsupark/realtime/ with the standard layout
 # (checkpoint/, dataset/, results/ under the root).
 #
-# Usage (Windows, default):
-#   python scripts/run_realtime.py
-# Usage (macOS, variant):
+# Usage:
 #   python scripts/run_realtime.py --config configs/realtime.mac.yaml
-#
-# Path notes:
-#   - Forward slashes ("D:/realtime/...") are valid on Windows and portable
-#     across pathlib.Path / os.path. Avoid backslashes so YAML escaping is
-#     unnecessary.
-#   - All downstream code uses pathlib.Path; no shell-specific paths.
 
 profile:
   name: "in2d_out12h_gnn_transformer"
@@ -22,11 +14,11 @@ experiment:
   name: "in2d_out12h_gnn_transformer"
 
 paths:
-  checkpoint: "D:/realtime/checkpoint/model_best.pth"
-  stats_file: "D:/realtime/checkpoint/table_stats.pkl"
-  event_dir: "D:/realtime/dataset/events"
-  cache_dir: "D:/realtime/dataset/cache"
-  results_dir: "D:/realtime/results"
+  checkpoint: "/Users/eunsupark/realtime/checkpoint/model_best.pth"
+  stats_file: "/Users/eunsupark/realtime/checkpoint/table_stats.pkl"
+  event_dir: "/Users/eunsupark/realtime/dataset/events"
+  cache_dir: "/Users/eunsupark/realtime/dataset/cache"
+  results_dir: "/Users/eunsupark/realtime/results"
 
 sources:
   noaa_plasma_url: "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
@@ -37,7 +29,7 @@ sources:
 
 window:
   lookback_steps: 96
-  forecast_steps: 24                      # 12 hours × 2 steps/hour
+  forecast_steps: 24         # 12 hours × 2 steps/hour
   boundary_offset_minutes: 2
 
 runtime:
