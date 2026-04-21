@@ -20,9 +20,9 @@ model to produce a 6-hour ap30 forecast.
 nowcast)에서 실황 데이터를 내려받아, 학습 때와 동일한 30분 이벤트 포맷으로
 전처리한 뒤, 가장 성능이 좋은 학습 모델로 향후 6시간의 ap30 을 예측합니다.
 
-- **Default model / 기본 모델**: `in2d_out6h_gnn_transformer` (Val Loss 0.2178, Val MAE 0.3532)
+- **Default model / 기본 모델**: `in2d_out12h_gnn_transformer` (Val Loss 0.2727, Val MAE 0.3840)
 - **Input / 입력**: 2-day lookback (96 steps at 30-min cadence, 22 variables)
-- **Output / 출력**: 12-step ap30 forecast (30 min → 6 hours ahead)
+- **Output / 출력**: 24-step ap30 forecast (30 min → 12 hours ahead)
 - **Execution / 실행 방식**: On-demand CLI (single-run). Run manually when a forecast is needed.
 
 ---
@@ -50,9 +50,23 @@ All vendored dependencies (downloader, normalizer, model code) live under
 conda activate ap
 pip install -r requirements.txt
 
-# Run once (uses configs/realtime.yaml defaults)
+# Windows (default) — assumes workspace at D:/realtime/ with the standard layout
 python scripts/run_realtime.py
+
+# macOS / Linux — uses /Users/eunsupark/realtime/... paths
+python scripts/run_realtime.py --config configs/realtime.mac.yaml
 ```
+
+Both configs share the same schema; only `paths.*` differ.
+기본값은 Windows (`configs/realtime.yaml`, `D:/realtime/...`) 이고, macOS 에서는
+`--config configs/realtime.mac.yaml` 로 전환합니다. 코드는 전부 `pathlib.Path` 와
+`encoding="utf-8"` 기반이라 양쪽에서 수정 없이 동작하며, 포워드 슬래시(`D:/...`)
+경로는 Windows 에서도 그대로 유효합니다.
+
+All profiles (24 input windows × 9 model architectures) are defined in
+[`configs/profile/io/`](configs/profile/io/) and
+[`configs/profile/model/`](configs/profile/model/); point `profile.io` and
+`profile.model` in your runtime yaml to pick any combination.
 
 Optional flags:
 
