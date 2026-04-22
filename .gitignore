@@ -39,6 +39,9 @@ htmlcov/
 .claude/
 CLAUDE.md
 
+# Rendered docs (HTML exports)
+*.html
+
 # Project-specific: generated artifacts
 dataset/events/*.csv
 dataset/cache/**
