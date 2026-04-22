@@ -42,12 +42,15 @@ CLAUDE.md
 # Rendered docs (HTML exports)
 *.html
 
+# Logs / runtime / scratch
+*.log
+*.out
+tmp.py
+
 # Project-specific: generated artifacts
 dataset/events/*.csv
 dataset/cache/**
 results/**
-*.log
-tmp.py
 
 # Large model artifacts (user-provided or downloaded)
 *.pth
