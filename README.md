@@ -53,7 +53,7 @@ pip install -r requirements.txt
 # Windows (default) — assumes workspace at D:/realtime/ with the standard layout
 python scripts/run_realtime.py
 
-# macOS / Linux — uses /Users/eunsupark/realtime/... paths
+# macOS / Linux — uses ~/realtime/... paths (see configs/realtime.mac.yaml)
 python scripts/run_realtime.py --config configs/realtime.mac.yaml
 ```
 
